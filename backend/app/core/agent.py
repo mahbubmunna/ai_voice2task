@@ -1,28 +1,28 @@
-from groq import Groq
+from groq import AsyncGroq
 from app.core.config import settings
 from app.models.task import AgentResponse, TaskItem, IntentType
 import json
 import datetime
 
-client = Groq(api_key=settings.GROQ_API_KEY)
+client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 
 SYSTEM_PROMPT = """
 You are an AI assistant that converts voice transcripts into structured tasks, reminders, calendar events, or notes.
 Your output must be strict JSON matching the following schema:
-{
+{{
   "type": "task | reminder | calendar | note",
   "tasks": [
-    {
+    {{
       "title": "Short title",
       "description": "More details if available",
       "due_datetime": "ISO 8601 string or null",
       "reminder_datetime": "ISO 8601 string or null",
       "confidence": 0.0 to 1.0
-    }
+    }}
   ],
   "needs_clarification": boolean,
   "clarification_question": "Question if needs_clarification is true"
-}
+}}
 
 Current Time: {current_time}
 
@@ -38,8 +38,8 @@ Rules:
 async def parse_transcript(transcript: str, user_timezone: str = "UTC") -> AgentResponse:
     current_time = datetime.datetime.now().isoformat()
     
-    completion = client.chat.completions.create(
-        model="llama3-70b-8192",
+    completion = await client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT.format(current_time=current_time)},
             {"role": "user", "content": transcript}

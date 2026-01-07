@@ -19,6 +19,7 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('AI Voice2Task')),
       body: tasksAsync.when(
+        skipLoadingOnRefresh: false,
         data: (tasks) {
           if (tasks.isEmpty) {
             return const Center(child: Text("No tasks yet. Tap mic to add."));
@@ -30,9 +31,9 @@ class HomePage extends ConsumerWidget {
               return ListTile(
                 title: Text(task.title),
                 subtitle: Text(task.description ?? ''),
-                trailing: task.dueAt != null 
-                  ? Text(task.dueAt.toString().substring(0, 16)) 
-                  : null,
+                trailing: task.dueAt != null
+                    ? Text(task.dueAt.toString().substring(0, 16))
+                    : null,
               );
             },
           );
