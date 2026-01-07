@@ -31,6 +31,6 @@ class TaskRepositoryImpl implements TaskRepository {
 }
 
 @Riverpod(keepAlive: true)
-TaskRepository taskRepository(TaskRepositoryRef ref) {
+TaskRepository taskRepository(Ref ref) {
   return TaskRepositoryImpl(ref.watch(dioProvider));
 }

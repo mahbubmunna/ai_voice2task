@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'voice_provider.dart';
+import '../voice_provider.dart';
+
 
 class RecordButton extends ConsumerWidget {
   const RecordButton({super.key});

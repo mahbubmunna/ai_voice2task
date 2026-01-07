@@ -3,6 +3,7 @@ import '../../tasks/data/repositories/task_repository_impl.dart';
 import '../../tasks/domain/entities/task.dart';
 import '../../../../core/network/api_client.dart';
 import 'package:dio/dio.dart';
+import '../../tasks/presentation/providers/task_providers.dart'; // Import for taskListProvider
 
 part 'voice_provider.g.dart';
 
