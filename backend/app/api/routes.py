@@ -14,6 +14,18 @@ async def process_on_device_transcript(request: ProcessingRequest):
     response = await parse_transcript(request.transcript, request.user_timezone)
     return response
 
+from app.core.stt import transcribe_audio
+
+@router.post("/stt/whisper", response_model=AgentResponse)
+async def process_audio_file(file: UploadFile = File(...), user_timezone: str = "UTC"):
+    # Read file content
+    content = await file.read()
+    # Transcribe
+    transcript = await transcribe_audio(content, file.filename)
+    # Parse
+    response = await parse_transcript(transcript, user_timezone)
+    return response
+
 @router.post("/tasks", response_model=TaskItem)
 async def create_task(task: TaskItem):
     TASKS_DB.append(task)

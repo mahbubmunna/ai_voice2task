@@ -1,75 +1,77 @@
-import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
+import 'package:record/record.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../tasks/data/repositories/task_repository_impl.dart';
-import '../../tasks/presentation/providers/task_providers.dart'; // Import for taskListProvider
+import '../../tasks/presentation/providers/task_providers.dart';
 
 part 'voice_provider.g.dart';
 
 @riverpod
 class VoiceState extends _$VoiceState {
-  final SpeechToText _speechToText = SpeechToText();
-  bool _isInitialized = false;
+  final AudioRecorder _audioRecorder = AudioRecorder();
+  String? _currentPath;
 
   @override
   bool build() {
+    ref.onDispose(() {
+      _audioRecorder.dispose();
+    });
     return false; // isRecording
   }
 
-  Future<void> _initSpeech() async {
-    if (!_isInitialized) {
-      // Permission request is handled by initialize usually, but explicit request is safer
-      var status = await Permission.microphone.status;
-      if (!status.isGranted) {
+  Future<void> startRecording() async {
+    try {
+      if (await _audioRecorder.hasPermission()) {
+        final dir = await getTemporaryDirectory();
+        _currentPath =
+            '${dir.path}/temp_recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+
+        await _audioRecorder.start(const RecordConfig(), path: _currentPath!);
+        state = true;
+      } else {
+        // Handle permission denied
         await Permission.microphone.request();
       }
-
-      _isInitialized = await _speechToText.initialize(
-        onError: (val) => print('onError: $val'),
-        onStatus: (val) => print('onStatus: $val'),
-      );
-    }
-  }
-
-  Future<void> startRecording() async {
-    await _initSpeech();
-    if (_isInitialized) {
-      state = true;
-      await _speechToText.listen(
-        onResult: _onSpeechResult,
-        listenFor: const Duration(seconds: 30),
-        pauseFor: const Duration(seconds: 3),
-        localeId: "en_US", // Make configurable later
-        cancelOnError: true,
-        listenMode: ListenMode.confirmation,
-      );
+    } catch (e) {
+      print("Error starting recording: $e");
     }
   }
 
   Future<void> stopRecording() async {
-    state = false;
-    await _speechToText.stop();
-  }
+    try {
+      if (!state) return;
 
-  void _onSpeechResult(SpeechRecognitionResult result) async {
-    if (result.finalResult) {
-      state = false; // Stop recording state UI
-      print("Final Transcript: ${result.recognizedWords}");
-      await _processTranscript(result.recognizedWords);
+      final path = await _audioRecorder.stop();
+      state = false;
+
+      if (path != null) {
+        final File audioFile = File(path);
+        await _processAudioFile(audioFile);
+      }
+    } catch (e) {
+      print("Error stopping recording: $e");
+      state = false;
     }
   }
 
-  Future<void> _processTranscript(String transcript) async {
-    if (transcript.isEmpty) return;
-
+  Future<void> _processAudioFile(File file) async {
     try {
       final repo = ref.read(taskRepositoryProvider);
 
-      // Call Repository to process transcript and get tasks
-      final newTasks = await repo.processTranscript(transcript);
+      // Upload audio, get agent response, save tasks
+      // processAudioFile in repo returns List<Task> and saves them?
+      // Wait, repo.processAudioFile usually just returns what Agent says.
+      // We should verify if repo saves them.
+      // In processTranscript it returned tasks.
+      // In TaskRepositoryImpl.processAudioFile we have:
+      // return response.tasks;
+      // It DOES NOT save them to Hive automatically unless createTasks is called.
+      // So we must save them.
 
-      // Save tasks
+      final newTasks = await repo.processAudioFile(file);
+
       for (var task in newTasks) {
         await repo.createTask(task);
       }
@@ -78,7 +80,7 @@ class VoiceState extends _$VoiceState {
         ref.invalidate(taskListProvider);
       }
     } catch (e) {
-      print("Error processing voice: $e");
+      print("Error processing audio: $e");
     }
   }
 }

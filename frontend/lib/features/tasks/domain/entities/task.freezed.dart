@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Task {
 
- String get title; String? get description;@JsonKey(name: 'due_datetime') DateTime? get dueAt;@JsonKey(name: 'reminder_datetime') DateTime? get reminderAt; double get confidence; bool get isCompleted;
+@HiveField(0) String get title;@HiveField(1) String? get description;@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? get dueAt;@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? get reminderAt;@HiveField(4) double get confidence;@HiveField(5) bool get isCompleted;
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $TaskCopyWith<$Res>  {
   factory $TaskCopyWith(Task value, $Res Function(Task) _then) = _$TaskCopyWithImpl;
 @useResult
 $Res call({
- String title, String? description,@JsonKey(name: 'due_datetime') DateTime? dueAt,@JsonKey(name: 'reminder_datetime') DateTime? reminderAt, double confidence, bool isCompleted
+@HiveField(0) String title,@HiveField(1) String? description,@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? dueAt,@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? reminderAt,@HiveField(4) double confidence,@HiveField(5) bool isCompleted
 });
 
 
@@ -158,7 +158,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String? description, @JsonKey(name: 'due_datetime')  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')  DateTime? reminderAt,  double confidence,  bool isCompleted)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Task() when $default != null:
 return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted);case _:
@@ -179,7 +179,7 @@ return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String? description, @JsonKey(name: 'due_datetime')  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')  DateTime? reminderAt,  double confidence,  bool isCompleted)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted)  $default,) {final _that = this;
 switch (_that) {
 case _Task():
 return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted);case _:
@@ -199,7 +199,7 @@ return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String? description, @JsonKey(name: 'due_datetime')  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')  DateTime? reminderAt,  double confidence,  bool isCompleted)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted)?  $default,) {final _that = this;
 switch (_that) {
 case _Task() when $default != null:
 return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted);case _:
@@ -214,15 +214,15 @@ return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that
 @JsonSerializable()
 
 class _Task implements Task {
-  const _Task({required this.title, this.description, @JsonKey(name: 'due_datetime') this.dueAt, @JsonKey(name: 'reminder_datetime') this.reminderAt, this.confidence = 0.0, this.isCompleted = false});
+  const _Task({@HiveField(0) required this.title, @HiveField(1) this.description, @JsonKey(name: 'due_datetime')@HiveField(2) this.dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3) this.reminderAt, @HiveField(4) this.confidence = 0.0, @HiveField(5) this.isCompleted = false});
   factory _Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
-@override final  String title;
-@override final  String? description;
-@override@JsonKey(name: 'due_datetime') final  DateTime? dueAt;
-@override@JsonKey(name: 'reminder_datetime') final  DateTime? reminderAt;
-@override@JsonKey() final  double confidence;
-@override@JsonKey() final  bool isCompleted;
+@override@HiveField(0) final  String title;
+@override@HiveField(1) final  String? description;
+@override@JsonKey(name: 'due_datetime')@HiveField(2) final  DateTime? dueAt;
+@override@JsonKey(name: 'reminder_datetime')@HiveField(3) final  DateTime? reminderAt;
+@override@JsonKey()@HiveField(4) final  double confidence;
+@override@JsonKey()@HiveField(5) final  bool isCompleted;
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
@@ -257,7 +257,7 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   factory _$TaskCopyWith(_Task value, $Res Function(_Task) _then) = __$TaskCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String? description,@JsonKey(name: 'due_datetime') DateTime? dueAt,@JsonKey(name: 'reminder_datetime') DateTime? reminderAt, double confidence, bool isCompleted
+@HiveField(0) String title,@HiveField(1) String? description,@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? dueAt,@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? reminderAt,@HiveField(4) double confidence,@HiveField(5) bool isCompleted
 });
 
 

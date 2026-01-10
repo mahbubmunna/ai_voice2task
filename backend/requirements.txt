@@ -5,3 +5,4 @@ httpx
 pydantic
 groq
 pydantic-settings
+python-multipart

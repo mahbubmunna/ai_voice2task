@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:retrofit/retrofit.dart';
@@ -38,5 +39,10 @@ abstract class ApiClient {
   @POST('/stt/on-device')
   Future<AgentResponse> processTranscript(@Body() Map<String, dynamic> body);
 
-  // Adding methods implied by user usage or standard patterns
+  @POST('/stt/whisper')
+  @MultiPart()
+  Future<AgentResponse> uploadAudio(
+    @Part(name: "file") File file,
+    @Part(name: "user_timezone") String userTimezone,
+  );
 }

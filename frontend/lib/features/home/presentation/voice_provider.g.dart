@@ -40,7 +40,7 @@ final class VoiceStateProvider extends $NotifierProvider<VoiceState, bool> {
   }
 }
 
-String _$voiceStateHash() => r'81f657707b80d1d3ecce0b16a88db338df54e61f';
+String _$voiceStateHash() => r'a0560e39ca36baa1eacae2eac9512c2cfbc8bbe7';
 
 abstract class _$VoiceState extends $Notifier<bool> {
   bool build();
