@@ -19,7 +19,7 @@ final class VoiceStateProvider extends $NotifierProvider<VoiceState, bool> {
         argument: null,
         retry: null,
         name: r'voiceStateProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -40,7 +40,7 @@ final class VoiceStateProvider extends $NotifierProvider<VoiceState, bool> {
   }
 }
 
-String _$voiceStateHash() => r'a0560e39ca36baa1eacae2eac9512c2cfbc8bbe7';
+String _$voiceStateHash() => r'83bd785dc8c61c6ea1630129356483d3aa99403c';
 
 abstract class _$VoiceState extends $Notifier<bool> {
   bool build();
