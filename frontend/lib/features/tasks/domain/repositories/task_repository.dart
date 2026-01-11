@@ -6,5 +6,6 @@ abstract class TaskRepository {
   Future<Task> createTask(Task task);
   Future<void> syncTasks();
   Future<List<Task>> processTranscript(String transcript);
-  Future<List<Task>> processAudioFile(File file); // New method
+  Future<List<Task>> processAudioFile(File file);
+  Future<void> updateTask(Task task);
 }

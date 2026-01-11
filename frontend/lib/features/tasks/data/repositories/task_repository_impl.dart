@@ -32,18 +32,19 @@ class TaskRepositoryImpl implements TaskRepository {
 
   @override
   Future<Task> createTask(Task task) async {
-    // Optimistic Save
-    await _box.add(task);
+    // Generate simplified ID if missing (MVP)
+    final taskWithId = task.id == null
+        ? task.copyWith(id: DateTime.now().millisecondsSinceEpoch.toString())
+        : task;
+
+    await _box.add(taskWithId);
 
     try {
-      final syncedTask = await _apiClient.createTask(task.toJson());
-      // Update local with synced data (ID, etc.) if needed
-      // For now just return synced
+      final syncedTask = await _apiClient.createTask(taskWithId.toJson());
+      // Here usually we'd update the local ID with server ID if different
       return syncedTask;
     } catch (e) {
-      // If API fails, we still have it locally.
-      // ideally mark as 'unsynced' but for MVP we just return local
-      return task;
+      return taskWithId;
     }
   }
 
@@ -71,6 +72,41 @@ class TaskRepositoryImpl implements TaskRepository {
   Future<List<Task>> processAudioFile(File file) async {
     final response = await _apiClient.uploadAudio(file, "UTC");
     return response.tasks;
+  }
+
+  @override
+  Future<void> updateTask(Task task) async {
+    final Map<dynamic, Task> taskMap = _box.toMap();
+    dynamic keyToUpdate;
+
+    // 1. Try to find by ID if it exists
+    if (task.id != null) {
+      taskMap.forEach((key, value) {
+        if (value.id == task.id) {
+          keyToUpdate = key;
+        }
+      });
+    }
+
+    // 2. Fallback: match by title/description if ID is null or not found
+    if (keyToUpdate == null) {
+      try {
+        keyToUpdate = taskMap.keys.firstWhere(
+          (k) =>
+              taskMap[k]?.title == task.title &&
+              taskMap[k]?.description == task.description,
+        );
+      } catch (e) {
+        // Not found
+        print("Task update failed: Task not found.");
+        return;
+      }
+    }
+
+    if (keyToUpdate != null) {
+      await _box.put(keyToUpdate, task);
+    }
+    // TODO: Sync to API
   }
 }
 

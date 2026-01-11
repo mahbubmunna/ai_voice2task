@@ -4,15 +4,18 @@
 
 import 'package:hive_ce/hive.dart';
 import 'package:ai_voice2task_app/features/tasks/domain/entities/task.dart';
+import 'package:ai_voice2task_app/features/tasks/domain/entities/task_source.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(TaskAdapter());
+    registerAdapter(TaskSourceAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(TaskAdapter());
+    registerAdapter(TaskSourceAdapter());
   }
 }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Task {
 
-@HiveField(0) String get title;@HiveField(1) String? get description;@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? get dueAt;@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? get reminderAt;@HiveField(4) double get confidence;@HiveField(5) bool get isCompleted;
+@HiveField(0) String get title;@HiveField(1) String? get description;@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? get dueAt;@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? get reminderAt;@HiveField(4) double get confidence;@HiveField(5) bool get isCompleted;@HiveField(6) String? get id;@HiveField(7) TaskSource get source;
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $TaskCopyWith<Task> get copyWith => _$TaskCopyWithImpl<Task>(this as Task, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Task&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueAt, dueAt) || other.dueAt == dueAt)&&(identical(other.reminderAt, reminderAt) || other.reminderAt == reminderAt)&&(identical(other.confidence, confidence) || other.confidence == confidence)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Task&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueAt, dueAt) || other.dueAt == dueAt)&&(identical(other.reminderAt, reminderAt) || other.reminderAt == reminderAt)&&(identical(other.confidence, confidence) || other.confidence == confidence)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.id, id) || other.id == id)&&(identical(other.source, source) || other.source == source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,description,dueAt,reminderAt,confidence,isCompleted);
+int get hashCode => Object.hash(runtimeType,title,description,dueAt,reminderAt,confidence,isCompleted,id,source);
 
 @override
 String toString() {
-  return 'Task(title: $title, description: $description, dueAt: $dueAt, reminderAt: $reminderAt, confidence: $confidence, isCompleted: $isCompleted)';
+  return 'Task(title: $title, description: $description, dueAt: $dueAt, reminderAt: $reminderAt, confidence: $confidence, isCompleted: $isCompleted, id: $id, source: $source)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $TaskCopyWith<$Res>  {
   factory $TaskCopyWith(Task value, $Res Function(Task) _then) = _$TaskCopyWithImpl;
 @useResult
 $Res call({
-@HiveField(0) String title,@HiveField(1) String? description,@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? dueAt,@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? reminderAt,@HiveField(4) double confidence,@HiveField(5) bool isCompleted
+@HiveField(0) String title,@HiveField(1) String? description,@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? dueAt,@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? reminderAt,@HiveField(4) double confidence,@HiveField(5) bool isCompleted,@HiveField(6) String? id,@HiveField(7) TaskSource source
 });
 
 
@@ -65,7 +65,7 @@ class _$TaskCopyWithImpl<$Res>
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = freezed,Object? dueAt = freezed,Object? reminderAt = freezed,Object? confidence = null,Object? isCompleted = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = freezed,Object? dueAt = freezed,Object? reminderAt = freezed,Object? confidence = null,Object? isCompleted = null,Object? id = freezed,Object? source = null,}) {
   return _then(_self.copyWith(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,9 @@ as String?,dueAt: freezed == dueAt ? _self.dueAt : dueAt // ignore: cast_nullabl
 as DateTime?,reminderAt: freezed == reminderAt ? _self.reminderAt : reminderAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
 as double,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
+as TaskSource,
   ));
 }
 
@@ -158,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted, @HiveField(6)  String? id, @HiveField(7)  TaskSource source)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Task() when $default != null:
-return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted);case _:
+return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted,_that.id,_that.source);case _:
   return orElse();
 
 }
@@ -179,10 +181,10 @@ return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted, @HiveField(6)  String? id, @HiveField(7)  TaskSource source)  $default,) {final _that = this;
 switch (_that) {
 case _Task():
-return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted);case _:
+return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted,_that.id,_that.source);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +201,10 @@ return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String title, @HiveField(1)  String? description, @JsonKey(name: 'due_datetime')@HiveField(2)  DateTime? dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3)  DateTime? reminderAt, @HiveField(4)  double confidence, @HiveField(5)  bool isCompleted, @HiveField(6)  String? id, @HiveField(7)  TaskSource source)?  $default,) {final _that = this;
 switch (_that) {
 case _Task() when $default != null:
-return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted);case _:
+return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that.confidence,_that.isCompleted,_that.id,_that.source);case _:
   return null;
 
 }
@@ -214,7 +216,7 @@ return $default(_that.title,_that.description,_that.dueAt,_that.reminderAt,_that
 @JsonSerializable()
 
 class _Task implements Task {
-  const _Task({@HiveField(0) required this.title, @HiveField(1) this.description, @JsonKey(name: 'due_datetime')@HiveField(2) this.dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3) this.reminderAt, @HiveField(4) this.confidence = 0.0, @HiveField(5) this.isCompleted = false});
+  const _Task({@HiveField(0) required this.title, @HiveField(1) this.description, @JsonKey(name: 'due_datetime')@HiveField(2) this.dueAt, @JsonKey(name: 'reminder_datetime')@HiveField(3) this.reminderAt, @HiveField(4) this.confidence = 0.0, @HiveField(5) this.isCompleted = false, @HiveField(6) this.id, @HiveField(7) this.source = TaskSource.voice});
   factory _Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
 @override@HiveField(0) final  String title;
@@ -223,6 +225,8 @@ class _Task implements Task {
 @override@JsonKey(name: 'reminder_datetime')@HiveField(3) final  DateTime? reminderAt;
 @override@JsonKey()@HiveField(4) final  double confidence;
 @override@JsonKey()@HiveField(5) final  bool isCompleted;
+@override@HiveField(6) final  String? id;
+@override@JsonKey()@HiveField(7) final  TaskSource source;
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Task&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueAt, dueAt) || other.dueAt == dueAt)&&(identical(other.reminderAt, reminderAt) || other.reminderAt == reminderAt)&&(identical(other.confidence, confidence) || other.confidence == confidence)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Task&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueAt, dueAt) || other.dueAt == dueAt)&&(identical(other.reminderAt, reminderAt) || other.reminderAt == reminderAt)&&(identical(other.confidence, confidence) || other.confidence == confidence)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.id, id) || other.id == id)&&(identical(other.source, source) || other.source == source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,description,dueAt,reminderAt,confidence,isCompleted);
+int get hashCode => Object.hash(runtimeType,title,description,dueAt,reminderAt,confidence,isCompleted,id,source);
 
 @override
 String toString() {
-  return 'Task(title: $title, description: $description, dueAt: $dueAt, reminderAt: $reminderAt, confidence: $confidence, isCompleted: $isCompleted)';
+  return 'Task(title: $title, description: $description, dueAt: $dueAt, reminderAt: $reminderAt, confidence: $confidence, isCompleted: $isCompleted, id: $id, source: $source)';
 }
 
 
@@ -257,7 +261,7 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   factory _$TaskCopyWith(_Task value, $Res Function(_Task) _then) = __$TaskCopyWithImpl;
 @override @useResult
 $Res call({
-@HiveField(0) String title,@HiveField(1) String? description,@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? dueAt,@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? reminderAt,@HiveField(4) double confidence,@HiveField(5) bool isCompleted
+@HiveField(0) String title,@HiveField(1) String? description,@JsonKey(name: 'due_datetime')@HiveField(2) DateTime? dueAt,@JsonKey(name: 'reminder_datetime')@HiveField(3) DateTime? reminderAt,@HiveField(4) double confidence,@HiveField(5) bool isCompleted,@HiveField(6) String? id,@HiveField(7) TaskSource source
 });
 
 
@@ -274,7 +278,7 @@ class __$TaskCopyWithImpl<$Res>
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = freezed,Object? dueAt = freezed,Object? reminderAt = freezed,Object? confidence = null,Object? isCompleted = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = freezed,Object? dueAt = freezed,Object? reminderAt = freezed,Object? confidence = null,Object? isCompleted = null,Object? id = freezed,Object? source = null,}) {
   return _then(_Task(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -282,7 +286,9 @@ as String?,dueAt: freezed == dueAt ? _self.dueAt : dueAt // ignore: cast_nullabl
 as DateTime?,reminderAt: freezed == reminderAt ? _self.reminderAt : reminderAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
 as double,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
+as TaskSource,
   ));
 }
 

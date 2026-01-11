@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:json_annotation/json_annotation.dart';
 import '../../features/tasks/domain/entities/task.dart';
 import '../../features/tasks/data/models/agent_response.dart';
 

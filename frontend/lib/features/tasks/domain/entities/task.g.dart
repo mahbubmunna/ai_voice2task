@@ -23,13 +23,15 @@ class TaskAdapter extends TypeAdapter<Task> {
       reminderAt: fields[3] as DateTime?,
       confidence: fields[4] == null ? 0.0 : (fields[4] as num).toDouble(),
       isCompleted: fields[5] == null ? false : fields[5] as bool,
+      id: fields[6] as String?,
+      source: fields[7] == null ? TaskSource.voice : fields[7] as TaskSource,
     );
   }
 
   @override
   void write(BinaryWriter writer, Task obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -41,7 +43,11 @@ class TaskAdapter extends TypeAdapter<Task> {
       ..writeByte(4)
       ..write(obj.confidence)
       ..writeByte(5)
-      ..write(obj.isCompleted);
+      ..write(obj.isCompleted)
+      ..writeByte(6)
+      ..write(obj.id)
+      ..writeByte(7)
+      ..write(obj.source);
   }
 
   @override
@@ -70,6 +76,10 @@ _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
       : DateTime.parse(json['reminder_datetime'] as String),
   confidence: (json['confidence'] as num?)?.toDouble() ?? 0.0,
   isCompleted: json['isCompleted'] as bool? ?? false,
+  id: json['id'] as String?,
+  source:
+      $enumDecodeNullable(_$TaskSourceEnumMap, json['source']) ??
+      TaskSource.voice,
 );
 
 Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
@@ -79,4 +89,11 @@ Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
   'reminder_datetime': instance.reminderAt?.toIso8601String(),
   'confidence': instance.confidence,
   'isCompleted': instance.isCompleted,
+  'id': instance.id,
+  'source': _$TaskSourceEnumMap[instance.source]!,
+};
+
+const _$TaskSourceEnumMap = {
+  TaskSource.voice: 'voice',
+  TaskSource.text: 'text',
 };

@@ -82,6 +82,9 @@ class _ListeningScreenState extends ConsumerState<ListeningScreen> {
                               ),
                             );
                           } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("No tasks found")),
+                            );
                             Navigator.of(context).pop();
                           }
                         }

@@ -4,41 +4,16 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../tasks/presentation/providers/task_providers.dart';
 import '../../tasks/presentation/listening_screen.dart';
+import '../../../core/router/router.dart';
 import 'voice_provider.dart';
-import 'widgets/task_card.dart';
+import 'widgets/home_task_card.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   void _startListening(BuildContext context, WidgetRef ref) async {
-    // Check permissions first or start recording immediately
     final voiceNotifier = ref.read(voiceStateProvider.notifier);
-
-    // Start recording logic
     voiceNotifier.startRecording();
-
-    // Show listening screen
-    // We wait for the result here? No, ListeningScreen manages the stop UX usually.
-    // Let's pass the logic.
-    // Actually, simple flow:
-    // 1. Start recording.
-    // 2. Open Listening Screen.
-    // 3. Listening Screen calls stopRecording when user taps done.
-    // 4. Listening Screen gets result, closes itself, returns result to here?
-    //    OR Listening Screen pushes Confirmation Screen directly.
-
-    // Let's have ListeningScreen handle the stop and navigation to confirmation.
-    // But ListeningScreen is just UI. The provider holds state.
-    // We need to coordinate.
-
-    // Better approach:
-    // await Navigator.push(context, MaterialPageRoute(builder: (_) => ListeningScreen()));
-    // But ListeningScreen needs to know when to close (when processing done).
-
-    // Let's make ListeningScreen simpler: It just shows UI. It calls stopRecording.
-    // stopRecording returns Future<List<Task>>.
-    // So ListeningScreen awaits that future.
-
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (_) => const ListeningScreen()));
@@ -67,7 +42,7 @@ class HomePage extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Good Evening", // Dynamic later
+                        "Good Evening",
                         style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: 24,
@@ -86,9 +61,7 @@ class HomePage extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.settings, color: Colors.white70),
                     onPressed: () {
-                      Navigator.of(
-                        context,
-                      ).pushNamed('/settings'); // Or re-add SettingsPage route
+                      Navigator.of(context).pushNamed('/settings');
                     },
                   ),
                 ],
@@ -97,7 +70,7 @@ class HomePage extends ConsumerWidget {
 
             const SizedBox(height: 40),
 
-            // Hero Section
+            // Hero Section (Always visible)
             Center(
               child: Column(
                 children: [
@@ -182,7 +155,10 @@ class HomePage extends ConsumerWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      final goRouter = ref.read(goRouterProvider);
+                      goRouter.push('/tasks');
+                    },
                     child: Text(
                       "View All",
                       style: GoogleFonts.inter(
@@ -196,17 +172,23 @@ class HomePage extends ConsumerWidget {
               ),
             ),
 
-            // Task List
+            // Task List (Recent 3)
             Expanded(
               child: tasksAsync.when(
-                data: (tasks) => ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: tasks.length,
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: TaskCard(task: tasks[index]),
-                  ),
-                ),
+                data: (tasks) {
+                  final recentTasks = tasks
+                      .take(3)
+                      .toList(); // Simple take 3 for MVP
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    itemCount: recentTasks.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: HomeTaskCard(task: recentTasks[index]),
+                    ),
+                  );
+                },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (err, stack) => Center(
                   child: Text(
@@ -214,20 +196,6 @@ class HomePage extends ConsumerWidget {
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
-              ),
-            ),
-
-            // Bottom Nav Placeholder
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              color: const Color(0xFF0F172A),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  Icon(Icons.home, color: Color(0xFF3B82F6)),
-                  Icon(Icons.calendar_month, color: Colors.white24),
-                  Icon(Icons.archive, color: Colors.white24),
-                ],
               ),
             ),
           ],
