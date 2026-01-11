@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../tasks/presentation/providers/task_providers.dart';
@@ -61,7 +62,7 @@ class HomePage extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.settings, color: Colors.white70),
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/settings');
+                      context.push('/settings');
                     },
                   ),
                 ],

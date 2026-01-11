@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -138,8 +139,10 @@ class _ArchivePageState extends ConsumerState<ArchivePage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.tune, color: Colors.white70),
-                      onPressed: () {},
+                      icon: const Icon(Icons.settings, color: Colors.white70),
+                      onPressed: () {
+                        context.push('/settings');
+                      },
                     ),
                   ),
                 ],

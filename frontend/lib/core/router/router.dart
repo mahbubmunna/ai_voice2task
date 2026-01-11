@@ -6,6 +6,7 @@ import '../../features/home/presentation/home_page.dart';
 import '../../features/calendar/presentation/calendar_page.dart';
 import '../../features/archive/presentation/archive_page.dart';
 import '../../features/tasks/presentation/tasks_page.dart';
+import '../../features/settings/presentation/settings_page.dart';
 import '../widgets/scaffold_with_nav_bar.dart';
 
 part 'router.g.dart';
@@ -61,6 +62,10 @@ GoRouter goRouter(Ref ref) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsPage(),
       ),
     ],
   );
