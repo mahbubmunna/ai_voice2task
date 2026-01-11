@@ -40,6 +40,14 @@ class VoiceState extends _$VoiceState {
     }
   }
 
+  Future<Amplitude> getAmplitude() async {
+    try {
+      return await _audioRecorder.getAmplitude();
+    } catch (e) {
+      return Amplitude(current: -160.0, max: -160.0);
+    }
+  }
+
   Future<List<Task>> stopRecording({bool shouldProcess = true}) async {
     try {
       if (!state) return [];
